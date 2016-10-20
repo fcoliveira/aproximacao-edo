@@ -3,18 +3,19 @@
 
     #include <stdio.h>
     #include <math.h>
+    #include <stdbool.h>
+    #include "euler_explicito.h"
+    #include "euler_implicito.h"
+    #include "rk_44.h"
 
     extern double g_t_min;
     extern double g_t_max;
     extern double g_y_contorno;// = sol_analitica(g_t_min);
+    extern int g_teto;
 
-    //#define g_y_contorno SOL_ANALITICA (g_t_min)
+    double f_xy(double t, double y); //edo
 
-    double f_xy(double t, double y);
-
-    double df_dy(double t, double y);
-
-    double sol_analitica (double t);
+    double df_dy(double t, double y); //derivada edo
 
     void verifica_info();
 
@@ -25,9 +26,6 @@
     void teste_convergencia (FILE *saida, double y_tf[][g_teto], int metodo);
 
     #include "sol_analitica.h"
-    #include "euler_implicito.h"
-    #include "euler_explicito.h"
-    #include "rk_44.h"
     #include "funcoes.h"
 
 #endif // PREDEF_INCLUDED

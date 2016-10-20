@@ -33,19 +33,36 @@
 ***************************************************************************************************************/
 
 #include "predef.h"
+//#include <stdio.h>
 
 int main (void){
 
-    double passos[g_teto];        /*QUANTIDADE DE PASSOS (nPassos) A SER DADO*/
-    double deltaT[g_teto];        /*deltaT CORRESPONDENTE A CADA nPassos*/
+    char check_analitico_implementado;
+    bool check;
+    //Comum aos tres metodos.
+//    double passos[g_teto];        /*QUANTIDADE DE PASSOS (nPassos) A SER DADO*/
+//    double deltaT[g_teto];        /*deltaT CORRESPONDENTE A CADA nPassos*/
 
-    double (*analitico)(double);
-    double (*fxy)(double, double);
-    double (*df)(double, double);
+    do{
 
-    analitico = &sol_analitica;
-    fxy = &f_xy;
-    df = &df_dy;
+        printf("Solucao analitica implementada? 's' ou 'n': ");
+        scanf("%c", check_analitico_implementado);
+        check = ((check_analitico_implementado != 's') && (check_analitico_implementado != 'n'));
+        if(check){
+            printf("Resposta invalida. Tente novamente.\n");
+        }
+    }while(check);
+
+    //Vetor para solucao analitica
+    //double (*analitico)(double); //sol analitica
+
+
+//    double (*f_edo)(double, double); //edo
+//    double (*derivada_edo)(double, double); //derivada da edo
+
+//    analitico = &sol_analitica;
+//    f_edo = &f_xy;
+//    derivada_edo = &df_dy;
 
     verifica_info( );
 
@@ -59,11 +76,11 @@ int main (void){
     printf("\nCalculando aproximacoes numericas...\n");
 
     /*AS TRÊS FUNÇÕES ABAIXO SÃO OS METODOS UTILIZADOS NO TRABALHO*/
-    euler_explicito (fxy, passos, deltaT);
+    euler_explicito (f_edo, passos, deltaT);
 
-    euler_implicito (fxy, df, passos, deltaT);
+    euler_implicito (f_edo, derivada_edo, passos, deltaT);
 
-    runge_kutta (fxy, passos, deltaT);
+    runge_kutta (f_edo, passos, deltaT);
 
     return 0;
 }

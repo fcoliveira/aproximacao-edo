@@ -73,29 +73,6 @@ void inicializa_vetores(double n[ ], double h[ ]){
     }
 }
 
-void resolve_analitico (double (*analitico_f)(double), double h[ ]){ /*SOLUÇÃO ANALÍTICA*/
-
-    FILE *saida;
-    double k;
-    double max_passo = (g_t_max-g_t_min) / h[g_teto - 1];
-    double y = g_y_contorno;
-    double t = g_t_min;
-
-    saida = fopen("y_analitico.txt", "w");
-    fprintf(saida, "%.10f %.10f\n", t, y);
-
-    for (k = 1; k <= max_passo; k++){
-
-        t = g_t_min + k * h[g_teto - 1];
-        y = analitico_f(t);
-        fprintf(saida, "%.10f %.10f\n", t, y);
-
-    }
-    ultimo_y_analitico = y;
-
-    fclose(saida);
-}
-
 void teste_convergencia (FILE *saida, double ytf[][g_teto], int metodo){
 
     int k;
