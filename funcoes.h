@@ -1,27 +1,37 @@
-/*
- Projeto de Cálculo Numérico
-Prof. Alexandre Roma (IME-USP)
+/***************************************************************************************************************
+* Projeto inicialmente desenvolvido para a disciplina "MAP0214 - Calculo Numerico com Aplicacoes em Fisica",
+* ministrada pelo Professor Dr. Alexandre Roma, Instituto de Matematica e Estatística - USP.
+*
+* Titulo do Trabalho:
+*   Resolucao de E.D.O's pelos metodos de Euler e Runge-Kutta e
+*       analise do erro associado a cada metodo empregado.
+*
+* Professor Orientador:
+*   Prof. Dr. Alexandre M. Roma
+*
+* Instituto de Astronomia, Geofisica e Ciencias Atmosfericas - Universidade de Sao Paulo, 2015
+*
+* Autores originais:
+*   Fabio Oliveira (fcoliveira) - 7978417
+*   Jesse Stenico               - 9051932
+*
+* Metodos de aproximacao empregados neste trabalho:
+*   Euler Explícito, Euler Implícito e Runge-Kutta Clássico (4,4)
+*
+* Alterações feitas por Fabio Oliveira (fcoliveira).
+* Obs.: no branch "original" constam todos os arquivos exatamente como foram entregues ao Professor no final do projeto.
+*       Para mais informacoes a respeito da metodologia empregada, consulte o arquivo "relatorio_MAP0214.pdf"
+***************************************************************************************************************/
 
-        IAG-USP
-         2015
+/***************************************************************************************************************
+*
+*   IMPORTANTE: os arquivos funcoes.h e main.c devem estar juntos no mesmo diretorio para o funcionamento
+*               adequado do programa.
+*               Caso voce tenha obtido esse arquivo separadamente, acesse:
+*               https://github.com/fcoliveira/aproximacao-edo
+*
+***************************************************************************************************************/
 
-Fábio Oliveira - 7978417
-Jessé Stenico - 9051932
-
-Resolução de E.D.O. pelos métodos:
-Euler Explícito,
-Euler Implícito e
-Runge-Kutta Clássico.
-
-Os resultados obtidos serão comparados com a solução analítica conhecida previamente.
-
-Caso de calibragem: Decaimento Radioativo
-
-y'=-Lambda*y
-y=exp(-Lambda*t)
-
-onde "Lambda" depende do material radioativo em questão.
-*/
 #ifndef FUNCOES_H_INCLUDED
 #define FUNCOES_H_INCLUDED
 
