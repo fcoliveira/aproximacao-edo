@@ -3,4 +3,6 @@
 
 
 
+
+
 #endif // EULER_IMPLICITO_H_INCLUDED

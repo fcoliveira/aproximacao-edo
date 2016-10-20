@@ -24,12 +24,10 @@
 
     void teste_convergencia (FILE *saida, double y_tf[][g_teto], int metodo);
 
-    void euler_explicito (double (*fxy)(double, double), double n[ ], double h[ ]);
-
-    void euler_implicito (double (*fxy)(double, double), double (*df)(double, double), double n[ ], double h[ ]);
-
-    void runge_kutta (double (*fxy)(double, double), double n[ ], double h[ ]);
-
+    #include "sol_analitica.h"
+    #include "euler_implicito.h"
+    #include "euler_explicito.h"
+    #include "rk_44.h"
     #include "funcoes.h"
 
 #endif // PREDEF_INCLUDED
