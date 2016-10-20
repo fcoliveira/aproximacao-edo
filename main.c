@@ -39,7 +39,7 @@ double SOL_ANALITICA (double t){ /*UTILIZADO PARA ANÁLISE DE CONVERGÊNCIA DO MÉT
 /*CASO A SOLUÇÃO ANALÍTICA SEJA DESCONHECIDA, PREENCHER COM "return 1.0"
 E DESCONSIDERAR OS RESULTADOS OBTIDOS PARA OS ARQUIVOS yanalitico.txt E convergencia*/
 
-    return exp(-0.5*t);
+    return exp(-0.5 * t);
 }
 
 double F_XY(double t, double y){ /*EDO*/
@@ -83,9 +83,9 @@ int main (void){
     double (*fxy)(double, double);
     double (*df)(double, double);
 
-    analitico=&SOL_ANALITICA;
-    fxy=&F_XY;
-    df=&dFdY;
+    analitico = &SOL_ANALITICA;
+    fxy = &F_XY;
+    df = &dFdY;
 
     verifica_info( );
 
