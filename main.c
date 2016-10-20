@@ -32,60 +32,20 @@
 *
 ***************************************************************************************************************/
 
-#include <stdio.h>
-#include <math.h>
-
-double SOL_ANALITICA (double t){ /*UTILIZADO PARA ANÁLISE DE CONVERGÊNCIA DO MÉTODO NUMÉRICO*/
-/*CASO A SOLUÇÃO ANALÍTICA SEJA DESCONHECIDA, PREENCHER COM "return 1.0"
-E DESCONSIDERAR OS RESULTADOS OBTIDOS PARA OS ARQUIVOS yanalitico.txt E convergencia*/
-
-    return exp(-0.5 * t);
-}
-
-double F_XY(double t, double y){ /*EDO*/
-
-    return -0.5 * y;
-}
-
-double dFdY(double t, double y){ /*DERIVADA DA FUNÇÃO FORNECIDA ACIMA EM RELAÇÃO A Y*/
-
-    return -0.5;
-}
-
-#define t_MIN 0.0
-#define t_MAX 5.0
-#define y_contorno SOL_ANALITICA (t_MIN)
-
-/*UTILIZADO NO MÉTODO DE NEWTON-RAPHSON PARA EULER-IMPLICITO*/
-#define EPSILON 1e-8
-#define MAXIMO_ITERACAO 30
-
-#define TETO 10 /* nPassos = 2^k , com 1<k<=TETO*/
-
-
-
-/*NÃO ALTERAR O CÓDIGO A PARTIR DESTE PONTO*/
-/*NÃO ALTERAR O ARQUIVO funcoes.h*/
-
-
-/* ** ATENÇÃO! ** */
-/*É NECESSÁRIO QUE O ARQUIVO funcoes.h ESTEJA NA MESMA PASTA QUE O CÓDIGO-FONTE.*/
-/*NELES ESTÃO CONTIDAS TODAS AS FUNÇÕES DE AJUSTE UTILIZADAS NO PROJETO*/
-
-#include "funcoes.h"
+#include "predef.h"
 
 int main (void){
 
-    double passos[TETO];        /*QUANTIDADE DE PASSOS (nPassos) A SER DADO*/
-    double deltaT[TETO];        /*deltaT CORRESPONDENTE A CADA nPassos*/
+    double passos[g_teto];        /*QUANTIDADE DE PASSOS (nPassos) A SER DADO*/
+    double deltaT[g_teto];        /*deltaT CORRESPONDENTE A CADA nPassos*/
 
     double (*analitico)(double);
     double (*fxy)(double, double);
     double (*df)(double, double);
 
-    analitico = &SOL_ANALITICA;
-    fxy = &F_XY;
-    df = &dFdY;
+    analitico = &sol_analitica;
+    fxy = &f_xy;
+    df = &df_dy;
 
     verifica_info( );
 

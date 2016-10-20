@@ -35,9 +35,9 @@
 #ifndef FUNCOES_H_INCLUDED
 #define FUNCOES_H_INCLUDED
 
-#define max_indice pow(2, TETO) + 1
-static double ultimo_y_analitico;
-static double ytf[3][TETO];
+#define max_indice pow(2, g_teto) + 1
+double ultimo_y_analitico;
+double ytf[3][g_teto];
 
 /***************************************************************************************************************
 *
@@ -51,7 +51,7 @@ static double ytf[3][TETO];
 void verifica_info(  ){
 
     printf  ("Intervalo: [%f, %f]\n"
-             "Condicao de contorno: %f\n", t_MIN, t_MAX, y_contorno);
+             "Condicao de contorno: %f\n", g_t_min, g_t_max, g_y_contorno);
 
 }
 
@@ -59,14 +59,14 @@ void inicializa_vetores(double n[ ], double h[ ]){
 
     int k;
 
-    for(k = 0; k < TETO; k++){
+    for(k = 0; k < g_teto; k++){
 
         n[k] = pow(2, k + 1);
-        h[k] = (t_MAX - t_MIN) / n[k];
+        h[k] = (g_t_max - g_t_min) / n[k];
 
     }
 
-    for (k = 0; k < TETO; k++){
+    for (k = 0; k < g_teto; k++){
 
         printf("Passos: %4.f DeltaT: %4f\n", n[k], h[k]);
 
@@ -77,16 +77,16 @@ void resolve_analitico (double (*analitico_f)(double), double h[ ]){ /*SOLUÇÃO A
 
     FILE *saida;
     double k;
-    double max_passo = (t_MAX-t_MIN) / h[TETO - 1];
-    double y = y_contorno;
-    double t = t_MIN;
+    double max_passo = (g_t_max-g_t_min) / h[g_teto - 1];
+    double y = g_y_contorno;
+    double t = g_t_min;
 
     saida = fopen("y_analitico.txt", "w");
     fprintf(saida, "%.10f %.10f\n", t, y);
 
     for (k = 1; k <= max_passo; k++){
 
-        t = t_MIN + k * h[TETO - 1];
+        t = g_t_min + k * h[g_teto - 1];
         y = analitico_f(t);
         fprintf(saida, "%.10f %.10f\n", t, y);
 
@@ -96,17 +96,17 @@ void resolve_analitico (double (*analitico_f)(double), double h[ ]){ /*SOLUÇÃO A
     fclose(saida);
 }
 
-void teste_convergencia (FILE *saida, double ytf[][TETO], int metodo){
+void teste_convergencia (FILE *saida, double ytf[][g_teto], int metodo){
 
     int k;
     double a, b;
 
     a = ytf[metodo][0];
 
-    for (k = 1; k < TETO; k++){
+    for (k = 1; k < g_teto; k++){
 
         b = ytf[metodo][k];
-        fprintf(saida, "%d %.10f\n", k, fabs( (a-ultimo_y_analitico) / (b-ultimo_y_analitico) ));
+        fprintf(saida, "%d %.10f\n", k, fabs( (a - ultimo_y_analitico) / (b - ultimo_y_analitico) ));
         a = b;
 
     }
@@ -122,18 +122,18 @@ void euler_explicito (double (*fxy)(double, double), double n[ ], double h[ ]){
     double y, t;
     double passo;
 
-    for (k = 0; k < TETO; k++){
+    for (k = 0; k < g_teto; k++){
 
         sprintf(arq, "exp%d.txt", (int)pow(2, k + 1)); /*UM ARQUIVO DIFERENTE PARA CADA QUANTIDADE DE n PASSOS*/
         saida = fopen(arq, "w");
 
-        y = y_contorno;
-        t = t_MIN;
+        y = g_y_contorno;
+        t = g_t_min;
         fprintf(saida, "%.10f %.10f\n", t, y);
 
         for(passo = 1; passo <= n[k]; passo++){
 
-            t = t_MIN + passo * h[k];
+            t = g_t_min + passo * h[k];
             y = y + h[k] * fxy(t, y);
             fprintf(saida, "%.10f %.10f\n", t, y);
 
@@ -161,27 +161,27 @@ void euler_implicito (double (*fxy)(double, double), double (*df)(double, double
 
     double y_implicito;
     double t;
-    double chute_inicial = (t_MAX - t_MIN) / 2.0;
+    double chute_inicial = (g_t_max - g_t_min) / 2.0;
     double y1, y2;
 
-    for (k = 0; k < TETO; k++){ /*PERCORRE TODO O VETOR DE INCREMENTOS*/
+    for (k = 0; k < g_teto; k++){ /*PERCORRE TODO O VETOR DE INCREMENTOS*/
 
         sprintf(arq, "imp%d.txt", (int)pow(2, k + 1));
         saida = fopen(arq, "w");
 
         y1 = chute_inicial;
-        y_implicito = y_contorno;
-        t = t_MIN;
+        y_implicito = g_y_contorno;
+        t = g_t_min;
         fprintf(saida, "%.10f %.10f\n", t, y_implicito);
 
         for(passo = 1; passo <= n[k]; passo++){
 
-            t = t_MIN + passo * h[k];
-            erro = 1 / EPSILON; /*VALOR SEGURAMENTE MAIOR QUE EPSILON QUALQUER QUE SEJA ELE*/
+            t = g_t_min + passo * h[k];
+            erro = 1 / g_epsilon; /*VALOR SEGURAMENTE MAIOR QUE g_epsilon QUALQUER QUE SEJA ELE*/
             iteracao = 1;
-            while (erro > EPSILON){ /*METODO DE NEWTON*/
+            while (erro > g_epsilon){ /*METODO DE NEWTON*/
 
-                if(iteracao > MAXIMO_ITERACAO){
+                if(iteracao > g_maximo_iteracao){
                     printf ("Newton-Raphson: Atingiu maximo de iteracoes determinado!\n");
                     break;
                 }
@@ -219,13 +219,13 @@ void runge_kutta (double (*fxy)(double, double), double n[ ], double h[ ]){
     double y_rk;
     double t;
 
-    for (k = 0; k < TETO; k++){
+    for (k = 0; k < g_teto; k++){
 
         sprintf(arq, "rk%d.txt", (int)pow(2, k + 1));
         saida = fopen(arq, "w");
 
-        y_rk = y_contorno;
-        t = t_MIN;
+        y_rk = g_y_contorno;
+        t = g_t_min;
         fprintf(saida, "%.10f %.10f\n", t, y_rk);
 
         for(passo = 1; passo <= n[k]; passo++){
@@ -240,14 +240,14 @@ void runge_kutta (double (*fxy)(double, double), double n[ ], double h[ ]){
 
             y_rk = y_rk + (1.0 / 6.0) * h[k] * (K_1 + K_2 + K_2 + K_3 + K_3 + K_4);
 
-			t = t_MIN + passo * h[k];
+			t = g_t_min + passo * h[k];
 
             fprintf(saida, "%.10f %.10f\n", t, y_rk);
 
         }
-        fclose(saida);
         ytf[2][k] = y_rk;
 
+        fclose(saida);
     }
 
     convergencia = fopen("conv_rk.txt", "w");
